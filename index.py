@@ -200,11 +200,12 @@ def error(bot, update, error):
 
 @app.route('/', methods=['POST'])
 def main():
-
-
+    TOKEN = "366760118:AAGVzekBzcYvr9sYQeamUQsgfZzquw23Kno"
+    updater = Updater(TOKEN)
+    PORT = int(os.environ.get('PORT', '5000'))
 
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater("366760118:AAGVzekBzcYvr9sYQeamUQsgfZzquw23Kno")
+    updater = Updater(TOKEN)
     # job_q= updater.job_queue
 
     # Get the dispatcher to register handlers
@@ -230,11 +231,10 @@ def main():
     #dp.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
-
-    # Run the bot until the you presses Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+    updater.start_webhook(listen="0.0.0.0",
+                      port=PORT,
+                      url_path=TOKEN)
+    updater.bot.set_webhook("https://bowdoinmenu.herokuapp.com/" + TOKEN)
     updater.idle()
 
 
