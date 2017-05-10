@@ -2,14 +2,13 @@ from bs4 import BeautifulSoup
 import urllib2
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Job, JobQueue, RegexHandler,ConversationHandler
 import telegram.replykeyboardmarkup
+import telegram.ext
 from telegram import ChatAction
 import telegram.keyboardbutton
 import telegram.parsemode
 import logging
 import time
-from flask import Flask, request
 
-app = Flask(__name__)
 
 userids=[]
 urlBase = "http://www.bowdoin.edu/atreus/views?unit="
@@ -198,7 +197,7 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))   
 
 
-@app.route('/', methods=['POST'])
+
 def main():
     TOKEN = "366760118:AAGVzekBzcYvr9sYQeamUQsgfZzquw23Kno"
     updater = Updater(TOKEN)
