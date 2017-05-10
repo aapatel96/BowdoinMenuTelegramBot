@@ -168,6 +168,7 @@ def thorneR(bot, update):
     print 5
     currenttime= int(time.ctime()[11:19][0:2])
     print currenttime
+    print time.ctime()
     print 6
     if currenttime>= 5 and currenttime < 10:
         print 7
