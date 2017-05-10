@@ -159,7 +159,7 @@ def moulton(bot, update,args):
     bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
     if currenttime>= 5 and currenttime < 10:
         update.message.reply_text(moultonBreakfast, parse_mode=telegram.ParseMode.HTML)
-    if currenttime>= 10 and currenttime < 14:
+    elif currenttime>= 10 and currenttime < 14:
         update.message.reply_text(moultonLunch, parse_mode=telegram.ParseMode.HTML)
     else:
         update.message.reply_text(moultonDinner, parse_mode=telegram.ParseMode.HTML)
@@ -171,7 +171,7 @@ def thorneR(bot, update):
     if currenttime>= 5 and currenttime < 10:
         print 7
         update.message.reply_text(thorneBreakfast)
-    if currenttime>= 10 and currenttime < 14:
+    elif currenttime>= 10 and currenttime < 14:
         print 7
         update.message.reply_text(thorneLunch)
     else:
