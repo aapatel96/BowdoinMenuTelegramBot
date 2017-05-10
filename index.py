@@ -181,14 +181,10 @@ def thorneR(bot, update):
 
 
 def moultonR(bot, update):
-    print 5
     currenttime= int(time.ctime()[11:19][0:2])
-    print 6
     if currenttime>= 5 and currenttime < 10:
-        print 7
         update.message.reply_text(moultonBreakfast)
-    if currenttime>= 10 and currenttime < 14:
-        print 7
+    elif currenttime>= 10 and currenttime < 14:
         update.message.reply_text(moultonLunch)
     else:
         print 7
