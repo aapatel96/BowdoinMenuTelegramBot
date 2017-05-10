@@ -166,7 +166,7 @@ def moulton(bot, update,args):
 
 def thorneR(bot, update):
     print 5
-    currenttime= int(time.ctime()[11:19][0:2])
+    currenttime= int(time.ctime()[11:19][0:2]) -3
     print currenttime
     print time.ctime()
     print 6
