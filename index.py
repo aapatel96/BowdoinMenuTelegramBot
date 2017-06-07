@@ -167,10 +167,19 @@ def moulton(bot, update,args):
 def thorneR(bot, update):
     currenttime= int(time.ctime()[11:19][0:2]) -3
     if currenttime>= 5 and currenttime < 10:
+        if thorneBreakfast == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(thorneBreakfast)
     elif currenttime>= 10 and currenttime < 14:
+        if thorneLunch == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(thorneLunch)
     else:
+        if thorneDinner == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(thorneDinner)
 
 
@@ -178,11 +187,19 @@ def thorneR(bot, update):
 def moultonR(bot, update):
     currenttime= int(time.ctime()[11:19][0:2]) -3
     if currenttime>= 5 and currenttime < 10:
+        if moultonBreakfast == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(moultonBreakfast)
     elif currenttime>= 10 and currenttime < 14:
+        if moultonLunch == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(moultonLunch)
     else:
-        print 7
+        if moultonDinner == '':
+            update.message.reply_text('No menus available')
+            return
         update.message.reply_text(moultonDinner)
 
 def error(bot, update, error):
@@ -222,10 +239,13 @@ def main():
     #dp.add_error_handler(error)
 
     # Start the Bot
+    ##updater.start_polling()
+    
     updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN)
     updater.bot.set_webhook("https://bowdoinmenu.herokuapp.com/" + TOKEN)
+    
     updater.idle()
 
 
