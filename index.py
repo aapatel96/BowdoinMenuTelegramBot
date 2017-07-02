@@ -1,14 +1,17 @@
 from bs4 import BeautifulSoup
 import urllib2
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Job, JobQueue, RegexHandler,ConversationHandler
+
+from telegram.ext import Updater, CommandHandler,InlineQueryHandler,MessageHandler, Filters, Job, JobQueue, RegexHandler,ConversationHandler
+from uuid import uuid4
 import telegram.replykeyboardmarkup
 import telegram.ext
-from telegram import ChatAction
+from telegram import ChatAction,InlineQueryResultArticle, ParseMode,InputTextMessageContent
 import telegram.keyboardbutton
 import telegram.parsemode
 import logging
 import time
 import os
+import re
 
 
 userids=[]
@@ -201,7 +204,76 @@ def moultonR(bot, update):
             update.message.reply_text('No menus available')
             return
         update.message.reply_text(moultonDinner)
+def escape_markdown(text):
+    """Helper function to escape telegram markup symbols"""
+    escape_chars = '\*_`\['
+    return re.sub(r'([%s])' % escape_chars, r'\\\1', text)
 
+
+def inlinequery(bot, update):
+    print update
+    query = update.inline_query.query
+    results = list()
+
+
+    currenttime= int(time.ctime()[11:19][0:2]) -3
+##    if update.inline_query.query.lower() == "t" or update.inline_query.query.lower() == "th" or update.inline_query.query.lower() == "tho" or update.inline_query.query.lower() == "thor" or update.inline_query.query.lower() == "thorn" or update.inline_query.query.lower() == "thorne":
+    stringt = ''
+    if currenttime>= 5 and currenttime < 10:
+        if thorneBreakfast == '':
+            stringt = 'No menus available'
+        else:
+           stringt = thorneBreakfast
+    elif currenttime>= 10 and currenttime < 14:
+        if thorneLunch == '':
+            stringt = 'No menus available'
+        else:
+            stringt = thorneLunch
+    else:
+        if thorneDinner == '':
+            stringt = 'No menus available'
+        else:
+            stringt = thorneDinner
+
+    stringm = ''
+    
+    if currenttime>= 5 and currenttime < 10:
+        if moultonBreakfast == '':
+            stringm = 'No menus available'
+        else:
+           string = moultonBreakfast
+    elif currenttime>= 10 and currenttime < 14:
+        if moultonLunch == '':
+            stringm = 'No menus available'
+        else:
+            stringm = moultonLunch
+    else:
+        if moultonDinner == '':
+            stringm='No menus available'
+        else:
+            stringm = moultonDinner
+    if update.inline_query.query== '':
+        results.append(InlineQueryResultArticle(id=uuid4(),
+                                                title="Thorne",
+                                                input_message_content=InputTextMessageContent(stringt),thumb_url="http://i.imgur.com/VzZfFo3.jpg",thumb_width=100,thumb_height=100))
+        results.append(InlineQueryResultArticle(id=uuid4(),
+                                                title="Moulton",
+                                                input_message_content=InputTextMessageContent(stringm),thumb_url="http://i.imgur.com/IvyPNey.png",thumb_width=100,thumb_height=100))
+
+        update.inline_query.answer(results)
+
+    if update.inline_query.query.lower() == "m" or update.inline_query.query.lower() == "mo" or update.inline_query.query.lower() == "mou" or update.inline_query.query.lower() == "moul" or update.inline_query.query.lower() == "moult" or update.inline_query.query.lower() == "moulto" or update.inline_query.query.lower() == "moulton":
+        results.append(InlineQueryResultArticle(id=uuid4(),
+                                                title="Moulton",
+                                                input_message_content=InputTextMessageContent(stringm),thumb_url="http://i.imgur.com/IvyPNey.png",thumb_width=100,thumb_height=100))
+
+        update.inline_query.answer(results)
+
+    if update.inline_query.query.lower() == "t" or update.inline_query.query.lower() == "th" or update.inline_query.query.lower() == "tho" or update.inline_query.query.lower() == "thor" or update.inline_query.query.lower() == "thorn" or update.inline_query.query.lower() == "thorne":
+        results.append(InlineQueryResultArticle(id=uuid4(),
+                                                title="Thorne",
+                                                input_message_content=InputTextMessageContent(stringt),thumb_url="http://i.imgur.com/VzZfFo3.jpg",thumb_width=100,thumb_height=100))
+        update.inline_query.answer(results)
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))   
 
@@ -225,6 +297,7 @@ def main():
     dp.add_handler(RegexHandler('^(thorne)$',thorneR))
     dp.add_handler(RegexHandler('^(moulton)$',moultonR))
     dp.add_handler(CommandHandler("moulton", moulton,pass_args=True))
+    dp.add_handler(InlineQueryHandler(inlinequery))
 
 
     
@@ -239,7 +312,7 @@ def main():
     #dp.add_error_handler(error)
 
     # Start the Bot
-    ##updater.start_polling()
+##    updater.start_polling()
     
     updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
