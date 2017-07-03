@@ -17,7 +17,7 @@ import re
 userids=[]
 urlBase = "http://www.bowdoin.edu/atreus/views?unit="
 mealMarker="&meal="
-both_keyboard= telegram.replykeyboardmarkup.ReplyKeyboardMarkup([[telegram.KeyboardButton("thorne"),telegram.KeyboardButton("moulton")]], resize_keyboard=True)
+both_keyboard= telegram.replykeyboardmarkup.ReplyKeyboardMarkup([[telegram.KeyboardButton("thorne"),telegram.KeyboardButton("moulton"),telegram.KeyboardButton("pub")]], resize_keyboard=True)
 
 diningHalls = ["48","49"]
 meals =["Breakfast","Lunch","Dinner"]
@@ -145,28 +145,6 @@ def notify(bot,job):
 
     
 
-def thorne(bot, update,args):
-    currenttime= int(time.ctime()[11:19][0:2])
-    bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    if currenttime>= 5 and currenttime < 10:
-        update.message.reply_text(thorneBreakfast, parse_mode=telegram.ParseMode.HTML)
-    if currenttime>= 10 and currenttime < 14:
-        update.message.reply_text(thorneLunch, parse_mode=telegram.ParseMode.HTML)
-    else:
-        update.message.reply_text(thorneDinner, parse_mode=telegram.ParseMode.HTML)
-
-
-
-def moulton(bot, update,args):
-    currenttime= int(time.ctime()[11:19][0:2])
-    bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    if currenttime>= 5 and currenttime < 10:
-        update.message.reply_text(moultonBreakfast, parse_mode=telegram.ParseMode.HTML)
-    elif currenttime>= 10 and currenttime < 14:
-        update.message.reply_text(moultonLunch, parse_mode=telegram.ParseMode.HTML)
-    else:
-        update.message.reply_text(moultonDinner, parse_mode=telegram.ParseMode.HTML)
-
 def thorneR(bot, update):
     currenttime= int(time.ctime()[11:19][0:2]) -3
     if currenttime>= 5 and currenttime < 10:
@@ -204,6 +182,9 @@ def moultonR(bot, update):
             update.message.reply_text('No menus available')
             return
         update.message.reply_text(moultonDinner)
+
+def pubR(bot, update):
+    bot.send_document(chat_id=update.message.chat_id, document=open('magees-menu.pdf', 'rb'))
 def escape_markdown(text):
     """Helper function to escape telegram markup symbols"""
     escape_chars = '\*_`\['
@@ -293,10 +274,9 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start, pass_job_queue=True))
-    dp.add_handler(CommandHandler("thorne", thorne,pass_args=True))
     dp.add_handler(RegexHandler('^(thorne)$',thorneR))
     dp.add_handler(RegexHandler('^(moulton)$',moultonR))
-    dp.add_handler(CommandHandler("moulton", moulton,pass_args=True))
+    dp.add_handler(RegexHandler('^(pub)$',pubR))
     dp.add_handler(InlineQueryHandler(inlinequery))
 
 
