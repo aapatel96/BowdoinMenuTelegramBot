@@ -187,7 +187,7 @@ def moultonR(bot, update):
             return
         update.message.reply_text(moultonDinner)
 
-@app.route('/moulton')
+@app.route('/')
 def moultonR():
     x = {'menu': None}
     currenttime= int(time.ctime()[11:19][0:2]) -3
