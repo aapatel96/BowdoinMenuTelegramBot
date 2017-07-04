@@ -12,6 +12,11 @@ import logging
 import time
 import os
 import re
+from flask import Flask, jsonify
+
+
+@app.route('/')
+
 
 
 userids=[]
@@ -183,6 +188,30 @@ def moultonR(bot, update):
             return
         update.message.reply_text(moultonDinner)
 
+@app.route('/moulton')
+def moultonR():
+    x = {'menu': None}
+    currenttime= int(time.ctime()[11:19][0:2]) -3
+    if currenttime>= 5 and currenttime < 10:
+        if moultonBreakfast == '':
+            x['menu'] == 'No menus available'
+            return jsonify(x)
+        x['menu'] == moultonBreakfast
+        return jsonify(x)
+    elif currenttime>= 10 and currenttime < 14:
+        if moultonLunch == '':
+            x['menu'] == 'No menus available'
+            return jsonify(x)
+        x['menu'] == moultonLunch
+        return jsonify(x)
+    else:
+        if moultonDinner == '':
+            x['menu'] == 'No menus available'
+            return jsonify(x)
+
+        x['menu'] == moultonDinner
+        return jsonify(x)
+
 def pubR(bot, update):
     bot.send_document(chat_id=update.message.chat_id, document=open('magees-menu.pdf', 'rb'))
 def escape_markdown(text):
@@ -255,6 +284,9 @@ def inlinequery(bot, update):
                                                 title="Thorne",
                                                 input_message_content=InputTextMessageContent(stringt),thumb_url="http://i.imgur.com/VzZfFo3.jpg",thumb_width=100,thumb_height=100))
         update.inline_query.answer(results)
+
+
+
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))   
 
