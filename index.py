@@ -115,22 +115,22 @@ def moulton():
     if currenttime>= 5 and currenttime < 10:
         if moultonBreakfast == '':
             x['menu'] == 'No menus available'
-            return x
+            return jsonify(results=x)
         x['menu'] == moultonBreakfast
-        return x
+        return jsonify(results=x)
     elif currenttime>= 10 and currenttime < 14:
         if moultonLunch == '':
             x['menu'] == 'No menus available'
-            return x
+            return jsonify(results=x)
         x['menu'] == moultonLunch
-        return x
+        return jsonify(results=x)
     else:
         if moultonDinner == '':
             x['menu'] == 'No menus available'
-            return x
+            return jsonify(results=x)
 
         x['menu'] == moultonDinner
-        return x
+        return jsonify(results=x)
 
 
 
