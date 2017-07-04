@@ -188,7 +188,7 @@ def moultonR(bot, update):
         update.message.reply_text(moultonDinner)
 
 @app.route('/')
-def moultonR():
+def moulton():
     x = {'menu': None}
     currenttime= int(time.ctime()[11:19][0:2]) -3
     if currenttime>= 5 and currenttime < 10:
