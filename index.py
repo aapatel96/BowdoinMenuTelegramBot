@@ -15,7 +15,6 @@ import re
 from flask import Flask, jsonify
 
 
-@app.route('/')
 
 
 
