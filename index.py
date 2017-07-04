@@ -194,22 +194,22 @@ def moulton():
     if currenttime>= 5 and currenttime < 10:
         if moultonBreakfast == '':
             x['menu'] == 'No menus available'
-            return jsonify(x)
+            return x
         x['menu'] == moultonBreakfast
-        return jsonify(x)
+        return x
     elif currenttime>= 10 and currenttime < 14:
         if moultonLunch == '':
             x['menu'] == 'No menus available'
-            return jsonify(x)
+            return x
         x['menu'] == moultonLunch
-        return jsonify(x)
+        return x
     else:
         if moultonDinner == '':
             x['menu'] == 'No menus available'
-            return jsonify(x)
+            return x
 
         x['menu'] == moultonDinner
-        return jsonify(x)
+        return x
 
 def pubR(bot, update):
     bot.send_document(chat_id=update.message.chat_id, document=open('magees-menu.pdf', 'rb'))
