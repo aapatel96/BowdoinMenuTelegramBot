@@ -108,6 +108,31 @@ moultonDinner = createMenu(menuItems("48","Dinner"))
 thorneDinner = createMenu(menuItems("49","Dinner"))
 
 
+@app.route('/moulton')
+def moulton():
+    x = {'menu': None}
+    currenttime= int(time.ctime()[11:19][0:2]) -3
+    if currenttime>= 5 and currenttime < 10:
+        if moultonBreakfast == '':
+            x['menu'] == 'No menus available'
+            return x
+        x['menu'] == moultonBreakfast
+        return x
+    elif currenttime>= 10 and currenttime < 14:
+        if moultonLunch == '':
+            x['menu'] == 'No menus available'
+            return x
+        x['menu'] == moultonLunch
+        return x
+    else:
+        if moultonDinner == '':
+            x['menu'] == 'No menus available'
+            return x
+
+        x['menu'] == moultonDinner
+        return x
+
+
 
 
 def start(bot, update, job_queue):
@@ -187,29 +212,7 @@ def moultonR(bot, update):
             return
         update.message.reply_text(moultonDinner)
 
-@app.route('/')
-def moulton():
-    x = {'menu': None}
-    currenttime= int(time.ctime()[11:19][0:2]) -3
-    if currenttime>= 5 and currenttime < 10:
-        if moultonBreakfast == '':
-            x['menu'] == 'No menus available'
-            return x
-        x['menu'] == moultonBreakfast
-        return x
-    elif currenttime>= 10 and currenttime < 14:
-        if moultonLunch == '':
-            x['menu'] == 'No menus available'
-            return x
-        x['menu'] == moultonLunch
-        return x
-    else:
-        if moultonDinner == '':
-            x['menu'] == 'No menus available'
-            return x
 
-        x['menu'] == moultonDinner
-        return x
 
 def pubR(bot, update):
     bot.send_document(chat_id=update.message.chat_id, document=open('magees-menu.pdf', 'rb'))
