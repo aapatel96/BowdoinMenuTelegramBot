@@ -15,7 +15,7 @@ import re
 from flask import Flask, jsonify
 
 
-
+app = Flask(__name__)
 
 
 userids=[]
