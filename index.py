@@ -295,6 +295,7 @@ def error(bot, update, error):
 
 
 def main():
+
     TOKEN = "366760118:AAGVzekBzcYvr9sYQeamUQsgfZzquw23Kno"
     updater = Updater(TOKEN)
     PORT = int(os.environ.get('PORT', '5000'))
@@ -334,6 +335,11 @@ def main():
     updater.bot.set_webhook("https://bowdoinmenu.herokuapp.com/" + TOKEN)
     
     updater.idle()
+    
+    app.run(
+        host="0.0.0.0",
+        port=int("5000")
+    )
 
 
 if __name__ == '__main__':
